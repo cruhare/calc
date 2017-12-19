@@ -43,6 +43,9 @@
 <link rel="alternate" href="https://gravitec.net/en/" hreflang="en" />
 <link rel="alternate" href="https://pl.gravitec.net" hreflang="pl" />
 <link rel="alternate" href="https://gravitec.net/ru/" hreflang="ru" />
+<script src="https://testcdn.gravitec.net:7700/storage/9137cf82aceb24d1f2415496829a2c20/client.js" async></script>
+
+
 </head>
         
 
@@ -122,23 +125,25 @@
     <div class="row">
       <div class="col-md-6 col-sm-8 col-xs-9">
         
-          <form method="post" action="" id="form" name="formMain" class="calc-form">
+         <form method="post" action="" id="form" name="formMain" class="calc-form">
               <div class="row">
                 <label for="url">Адрес сайта:*</label>
-                <input type="url" name="url" id="url" placeholder="https://www.facebook.com" required class="form-control">
+                <input type="text" name="url" id="url"placeholder="https://www.facebook.com" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" required class="form-control">
+                
+
               </div>
               <div class="row">
                 <label for="traffic">Посещаемость*</label>
-                <input id="traffic" name="traffic" required value="100000" class="form-control" type="number" step="100" min="100">       
+                <input id="traffic" name="traffic" required value="100000" class="form-control" type="number" min="1">       
               </div>
                <div class="row radio-button">
-               	<div class="col-xs-5">http/https*:</div>
-               	<div class="col-xs-7">
-               		<input type="radio" required  id="http" value="http" name="radios-two">
+                <div class="col-xs-5">http/https*:</div>
+                <div class="col-xs-7">
+                  <input type="radio" required  id="http" value="http" name="radios-two">
                     <label for="http">Http</label>
-	                <input type="radio" id="https" value="https" name="radios-two">
-	                <label for="https">Https</label>
-               	</div>
+                  <input type="radio" id="https" value="https" name="radios-two">
+                  <label for="https">Https</label>
+                </div>
                </div>
                <div class="row">
                  <label for="collection_forecast">Прогнозы по сбору базы данных подписчиков*
@@ -157,7 +162,7 @@
                    <option selected="selected"  value="8">рекомендуемо (8)</option>
                    <option value="свое">свое</option>
                  </select>
-                 <input class="form-control"  value="1" id="custom_mailing_list" name="custom_mailing_list" placeholder="Количество рассылок" type="number" min="1">
+                 <input class="form-control" id="custom_mailing_list" name="custom_mailing_list" placeholder="Количество рассылок" type="number" min="1">
                </div>
                <div class="row">
                 <label for="ctr">Расчетный CTR (%)*</label>
@@ -168,7 +173,7 @@
                   <option value="10">отличный (10)</option>
                   <option value="ownctr">свой CTR</option>
                 </select>
-                <input class="form-control" value="1" name="custom_ctr" step="0.01" placeholder="Ваш CTR" id="custom_ctr" type="number" min="1" max="100">
+                <input class="form-control"  name="custom_ctr" step="0.01" placeholder="Ваш CTR" id="custom_ctr" type="number" min="1" max="100">
               </div>
 
               <div class="row">
@@ -183,6 +188,8 @@
               </div>
               <input type="submit" class="btn" value="рассчитать" name="send">
             </form>
+            <a href="#" class="btn" id="push">Show subscription</a>
+            
         
       </div>
      
@@ -358,9 +365,9 @@
          <p>
            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ut metus viverra, gravida augue et, tincidunt est. Ut sed nisl magna. Sed mollis maximus turpis suscipit luctus. Vestibulum est lorem, condimentum ut efficitur et, rhoncus et justo. Nunc sed fermentum odio, vel rutrum ligula. Aenean at ultrices risus, sit amet hendrerit orci. Nullam egestas, purus non lobortis ultricies, eros ipsum viverra ante, sit amet ullamcorper lorem mauris ac nulla. 
          </p>
-         <form method="post" class="subscribe" onsubmit="return false">
+         <form method="post" id="form_2" action="" class="subscribe">
            <h3>Введите свой адрес чтоб получить расширеную статистику на почту:</h3>
-           <input type="email" class="form-control" id="subscribre_form">
+           <input type="email" name="email" class="form-control" id="subscribre_form">
            <input type="submit" class="btn btn-email" id="send_email">
          </form>
        </div>
@@ -368,10 +375,16 @@
     </div>
   </div>
 </section>
+
   
-<div class="b-popup">
+<div class="b-popup-1 b-popup">
     <div class="b-popup-content">
-        Нажмите на кнопку разрешить, чтобы получать уведомления о появлении новых товаров.
+        Нажмите на кнопку разрешить, чтобы получать увидеть полную статистику(инструкция).
+    </div>
+</div>
+<div class="b-popup-2 b-popup">
+    <div class="b-popup-content">
+        Нажмите на кнопку разрешить, чтобы увидеть все, что нужно.
     </div>
 </div>
 
@@ -394,7 +407,22 @@
         <script src="js/venobox.min.js"></script>
         <script src="js/custom-scripts.js"></script>
         <script>
+
+            
+
+            </script>
+        <script>
+
+          Gravitec.push(["init", {
+
+            "autoRegister":false,
+
+            }]);
+
             $(document).ready(function(){
+             console.log(something);
+            var sub;
+
               $('.calc-form').change(function(){
                 $traffic = $("input[id=traffic]").val();
                 $number_mailings = $("select#mailing_lists option:selected").val();
@@ -446,13 +474,8 @@
               $('.close').click(function(){
                  $('.form-description').hide();  
               });
-
-              $('#subscribe_window').click(function(){
-                 $('.b-popup').show();  
-              });
-
-
-             
+              
+        
               $("input#url").click( function(){
                 $('.form-description').hide();
               	$('.url-description').show();
@@ -529,15 +552,83 @@
                 if ($type_site.length > 1 && $url.length>1 && $number_mailings.length>0 && $number_ctr.length>0 && $profit.length>0 && $conversion.length>0){
                    $('.conclusion').show();
                  }
-                
-                
-                $('.subscriber').show();
-                $('.no-subscriber').show();
-                $('.form-description').hide();       
+                $('.form-description').hide(); 
+
               });
                 
-              
+               Gravitec.isSubscribed(function(subscription){
+                  console.log(subscription);
+                 if(subscription){
+                    //do something. with subscription
+                    $('.subscriber').show();
+                    
+                 }else{
+                    //without subscription
+                    $('.no-subscriber').show();
+                 }
+              });
+
+
+
+
+
+                
+                 if (something === 5){
+                     console.log('blocked');
+                     $('#subscribe_window').click(function(){
+                      $('.b-popup-1').show();
+
+                        
+                     });
+                     
+
+                 } else{
+                   
+                        console.log(sub);
+                   $('#subscribe_window').on('click', registerPush);
+                    $('#subscribe_window').click(function(){
+                      $('.b-popup-2').show();
+                      sub = 6;
+                    }); 
+                     console.log('non-subscriber');
+                  }
+               console.log(sub); 
+                if(sub === 6){
+                  $("input[name=send]").click( function () {
+                    $('.subscriber').show();
+                    $('.no-subscriber').hide();
+                  })
+
+                }
+
+
+                  $('#push').on('click', registerPush);
+
+            function registerPush() {
+
+            console.log('click');
+
+            Gravitec.push(["registerUserForPush", function(success){
+
+            if (success) {
+
+            //your custom action
+
+            }
+
+            }]);
+
+            }
+                
             });
+
+Gravitec.push(["afterSubscription", function (token) {
+                   $('.b-popup-2').hide(); 
+                   $('.no-subscriber').hide();
+                   $('.subscriber').show();
+                   }]);
+
+              
         </script>
         <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
           <script type="text/javascript">
@@ -549,6 +640,17 @@
               url: "form.php",
               data: $(this).serialize()
                  });
+            return false;
+          });
+
+           $("#form_2").submit(function() {
+            $.ajax({
+              type: "POST",
+              url: "form_2.php",
+              data: $(this).serialize()
+                 }).done(function() {
+                    alert("Спасибо за заявку! Скоро мы с вами свяжемся.");
+                  });
             return false;
           });
           
